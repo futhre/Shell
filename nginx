@@ -1,0 +1,53 @@
+#!/bin/bash
+#Author:木+辛
+#Description:Nginx AND Stop AND ReStart AND Status  
+#mail: (3341351937@qq.com)
+
+#Service Nginx Stop
+#Service Nginx ReStart
+#Service Nginx Status
+#Service Nginx Start
+
+Program=/usr/local/nginx/sbin/nginx
+Pid=/usr/local/nginx/logs/nginx.pid
+
+Start(){
+if [  -f  "$Pid"  ];then
+    echo  "nginx服务已经处于开启状态...."
+else
+        "$Program"
+fi
+}
+
+Stop(){
+if [ ! -f "$Pid" ];then
+    echo  "nginx服务已经关闭....."
+else
+    "$Program"    -s  stop
+    echo   "服务关闭OK...." 
+fi
+}
+
+Status(){
+if [ -f  "$Pid" ];then
+    echo  "nginx正在运行...."
+else
+    echo   "nginx服务已经关闭...."
+fi
+}
+
+case  $1  in
+Start)
+           Start;;
+Stop)  
+           Stop;;
+ReStart)
+           Stop
+           sleep  1
+           Start;;
+Status)
+           Status;;
+*)
+           echo   "你输入的语法格式错误...."
+esac
+
